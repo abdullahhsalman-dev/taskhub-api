@@ -1,8 +1,14 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
+import { User } from '../../schema/user.type';
+
+// Extend the Request interface to include a typed `user` property
+interface RequestWithUser extends Request {
+  user: User;
+}
 
 export const GetUser = createParamDecorator(
-  (data: unknown, ctx: ExecutionContext) => {
-    const request = ctx.switchToHttp().getRequest();
-    return request.user; // populated by Passport strategy
+  (data: unknown, ctx: ExecutionContext): User => {
+    const request = ctx.switchToHttp().getRequest<RequestWithUser>();
+    return request.user;
   },
 );

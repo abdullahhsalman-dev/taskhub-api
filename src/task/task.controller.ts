@@ -14,6 +14,7 @@ import { JwtGuard } from '../auth/guard/jwt.guard';
 import { GetUser } from '../auth/decorator/get-user.decorator';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
+import { User } from '../schema/user.type';
 
 @UseGuards(JwtGuard)
 @Controller('tasks')
@@ -21,12 +22,12 @@ export class TaskController {
   constructor(private taskService: TaskService) {}
 
   @Post()
-  create(@Body() dto: CreateTaskDto, @GetUser() user: any) {
-    return this.taskService.createTask(user.id, dto);
+  create(@Body() dto: CreateTaskDto, @GetUser() user: User) {
+    return this.taskService.createTask(user?.id, dto);
   }
 
   @Get()
-  getAll(@GetUser() user: any) {
+  getAll(@GetUser() user: User) {
     return this.taskService.getTasks(user.id);
   }
 
@@ -34,13 +35,13 @@ export class TaskController {
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: UpdateTaskDto,
-    @GetUser() user: any,
+    @GetUser() user: User,
   ) {
     return this.taskService.updateTask(user.id, id, dto);
   }
 
   @Delete(':id')
-  delete(@Param('id', ParseIntPipe) id: number, @GetUser() user: any) {
+  delete(@Param('id', ParseIntPipe) id: number, @GetUser() user: User) {
     return this.taskService.deleteTask(user.id, id);
   }
 }
