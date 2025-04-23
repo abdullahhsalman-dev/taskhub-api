@@ -67,3 +67,13 @@ import { UseGuards } from '@nestjs/common';
 export class TaskController {
 // controller code here
 }
+
+- Guards and Strategies work together to protect the application. Guards prevent unauthorized access, and strategies define how the request should be validated.
+
+Aspect | Guard | Strategy
+Purpose | Protect routes and control access (e.g., authentication, authorization). | Define how authentication happens (e.g., JWT, OAuth).
+Functionality | Determines if a request can proceed or not based on certain conditions (e.g., roles, token validation). | Defines how to extract and validate the authentication information.
+Execution Time | Runs before the route handler to decide if the request can proceed. | Executes when a specific authentication method (strategy) is used to validate credentials.
+Use Case | Protect routes (e.g., by checking if a user is authenticated or authorized). | Extract and validate authentication data (e.g., validate JWT or check username/password).
+Example | JWTAuthGuard, RolesGuard, PermissionsGuard. | JwtStrategy, LocalStrategy, OAuthStrategy.
+How It Works | Returns true (allow) or false (deny) to control the request flow. | Returns the validated user or null if authentication fails.
